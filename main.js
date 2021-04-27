@@ -11,20 +11,22 @@ const kayn = Kayn('RGAPI-4c985925-373c-456b-9e80-c6d71c812723')({
 })
 
 app.get('/champions', (req, res) => {
-    kayn.DDragon.Champion.list().then(function(champions){
+    kayn.DDragon.Champion.list().then(function (champions) {
         const champfilter = champions.data;
         let table = [];
-        for(champion in champfilter){
+        for (champion in champfilter) {
             championinfo = champfilter[champion];
-            table.push({name: championinfo.name, 
-                        tags: championinfo.tags,
-                        key: championinfo.key,
-                        square_image:  'http://ddragon.leagueoflegends.com/cdn/11.8.1/img/champion/' + championinfo.image.full,
-                        loading_image: 'http://ddragon.leagueoflegends.com/cdn/img/champion/loading/' + championinfo.id + '_0.jpg'})
+            table.push({
+                name: championinfo.name,
+                tags: championinfo.tags,
+                key: championinfo.key,
+                square_image: 'http://ddragon.leagueoflegends.com/cdn/11.8.1/img/champion/' + championinfo.image.full,
+                loading_image: 'http://ddragon.leagueoflegends.com/cdn/img/champion/loading/' + championinfo.id + '_0.jpg'
+            })
         }
         res.send(table)
     });
 });
 
-app.listen(5540);
+app.listen(process.env.PORT || 80);
 
