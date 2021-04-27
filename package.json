@@ -4,7 +4,8 @@
     "main": "main.js",
     "license": "MIT",
     "scripts": {
-        "start": "CHOKIDAR_USEPOLLING=true nodemon"
+        "start": "CHOKIDAR_USEPOLLING=true nodemon",
+        "prod": "node main.js"
     },
     "devDependencies": {
         "nodemon": "^2.0.7"
