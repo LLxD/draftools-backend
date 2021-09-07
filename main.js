@@ -14,7 +14,7 @@ const kayn = Kayn(process.env.RIOT_LOL_API_KEY)({
 
 
 
-app.get('/champions', (res) => {
+app.get('/champions', (req,res) => {
     kayn.DDragon.Champion.list().then(function (champions) {
         console.log(champions.data)
         const champfilter = champions.data;
@@ -33,13 +33,13 @@ app.get('/champions', (res) => {
         res.send(table)
     });
 });
-app.get('/result', (res) => {
+app.get('/result', (req,res) => {
 
-    const champions = res
-    // let tags = table.map(function getTag(champions){
-    //     return champions.tags;
-    // })
-    res.send(champions)
+    const championList = req.body
+    let tags = championList.map(function getTag(champions){
+        return champions.tags;
+    })
+    res.send(tags)
 });
 
 app.listen(process.env.PORT || 80);
