@@ -3,7 +3,6 @@ const cors = require('cors')
 const app = express();
 app.use(cors());
 const { Kayn, REGIONS } = require('kayn');
-const { response } = require('express');
 
 
 const kayn = Kayn(process.env.RIOT_LOL_API_KEY)({
@@ -35,11 +34,20 @@ app.get('/champions', (req,res) => {
 });
 app.get('/result', (req,res) => {
 
-    const championList = req.body
-    let tags = championList.map(function getTag(champions){
-        return champions.tags;
-    })
-    res.send(tags)
+    // const championList = req.body
+    // let tags = championList.map(function getTag(champions){
+    //     return champions.tags;
+    // })
+    res.send({
+        "name": "Aatrox",
+        "tags": [
+          "Fighter",
+          "Tank"
+        ],
+        "key": "266",
+        "square_image": "http://ddragon.leagueoflegends.com/cdn/11.17.1/img/champion/Aatrox.png",
+        "loading_image": "http://ddragon.leagueoflegends.com/cdn/img/champion/loading/Aatrox_0.jpg"
+      })
 });
 
 app.listen(process.env.PORT || 80);
