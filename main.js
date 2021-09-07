@@ -32,7 +32,7 @@ app.get('/champions', (req,res) => {
         res.send(table)
     });
 });
-app.get('/result', (req,res) => {
+app.post('/result', (req,res) => {
 
     // const championList = req.body
     // let tags = championList.map(function getTag(champions){
