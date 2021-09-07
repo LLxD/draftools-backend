@@ -38,6 +38,7 @@ app.get('/result', (req,res) => {
     // let tags = championList.map(function getTag(champions){
     //     return champions.tags;
     // })
+    console.log(req.body)
     res.send({
         "name": "Aatrox",
         "tags": [
