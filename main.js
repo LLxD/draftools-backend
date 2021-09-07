@@ -2,7 +2,8 @@ const express = require('express')
 const cors = require('cors')
 const app = express();
 app.use(cors());
-const { Kayn, REGIONS } = require('kayn')
+const { Kayn, REGIONS } = require('kayn');
+const { response } = require('express');
 
 
 const kayn = Kayn(process.env.RIOT_LOL_API_KEY)({
@@ -11,8 +12,11 @@ const kayn = Kayn(process.env.RIOT_LOL_API_KEY)({
     locale: 'pt_BR',
 })
 
-app.get('/champions', (req, res) => {
+
+
+app.get('/champions', (res) => {
     kayn.DDragon.Champion.list().then(function (champions) {
+        console.log(champions.data)
         const champfilter = champions.data;
         let table = [];
         for (champion in champfilter) {
@@ -25,11 +29,17 @@ app.get('/champions', (req, res) => {
                 loading_image: 'http://ddragon.leagueoflegends.com/cdn/img/champion/loading/' + championinfo.id + '_0.jpg'
             })
         }
+
         res.send(table)
     });
 });
-app.get('/result', (req, res) => {
-    console.log(req);
+app.get('/result', (res) => {
+
+    const champions = res
+    // let tags = table.map(function getTag(champions){
+    //     return champions.tags;
+    // })
+    res.send(champions)
 });
 
 app.listen(process.env.PORT || 80);
