@@ -101,7 +101,6 @@ function compDetection(championList) {
 
 }
 
-
 app.get('/champions', (req,res) => {
     kayn.DDragon.Champion.list().then(function (champions) {
         const champfilter = champions.data;
@@ -123,14 +122,29 @@ app.get('/champions', (req,res) => {
 });
 
 
-
-
 app.post('/result', (req,res) => {
 
     const championList = req.body
     let finalResult = compDetection(championList)
 
     res.send(finalResult)
+});
+
+app.get('/random', (req,res) => {
+
+    kayn.DDragon.Champion.list().then(function (champions) {
+        const champfilter = champions.data;
+        let table = [];
+        for (champion in champfilter) {
+            championinfo = champfilter[champion];
+            table.push({
+                name: championinfo.name,
+                tags: championinfo.tags,
+                info: championinfo.info,
+            })
+        } 
+        res.send(getRandom(table,5))
+    });
 });
 
 app.listen(process.env.PORT || 80);
