@@ -2,6 +2,7 @@ const express = require('express')
 const cors = require('cors')
 const app = express();
 app.use(cors());
+app.use(express.json());
 const { Kayn, REGIONS } = require('kayn');
 
 
@@ -32,23 +33,26 @@ app.get('/champions', (req,res) => {
         res.send(table)
     });
 });
+
+
 app.post('/result', (req,res) => {
 
-    // const championList = req.body
-    // let tags = championList.map(function getTag(champions){
-    //     return champions.tags;
-    // })
-    console.log(req.body)
-    res.send({
-        "name": "Aatrox",
-        "tags": [
-          "Fighter",
-          "Tank"
-        ],
-        "key": "266",
-        "square_image": "http://ddragon.leagueoflegends.com/cdn/11.17.1/img/champion/Aatrox.png",
-        "loading_image": "http://ddragon.leagueoflegends.com/cdn/img/champion/loading/Aatrox_0.jpg"
-      })
+    const championList = req.body
+    let tags = []
+    championList.map(function getTag(champions){
+        tags.push(champions.tags[0]);
+        champions.tags[1] != null ?  tags.push(champions.tags[1]) : {} ;
+    })
+    
+
+    const marksman = tags.filter(tagName => tagName === "Marksman").length;
+    const fighter = tags.filter(tagName => tagName === "Fighter").length;
+    const tank = tags.filter(tagName => tagName === "Tank").length;
+    const mage = tags.filter(tagName => tagName === "Mage").length;
+    const assassin = tags.filter(tagName => tagName === "Assassin").length;
+    const support = tags.filter(tagName => tagName === "Support").length;
+
+    res.send(tagCount)
 });
 
 app.listen(process.env.PORT || 80);
