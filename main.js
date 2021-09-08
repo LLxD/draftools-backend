@@ -52,6 +52,8 @@ app.post('/result', (req,res) => {
     const assassin = tags.filter(tagName => tagName === "Assassin").length;
     const support = tags.filter(tagName => tagName === "Support").length;
 
+    const tagCount = [marksman,fighter,tank,mage,assassin,support]
+    
     res.send(tagCount)
 });
 
