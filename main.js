@@ -25,6 +25,7 @@ app.get('/champions', (req,res) => {
                 name: championinfo.name,
                 tags: championinfo.tags,
                 key: championinfo.key,
+                info: championinfo.info,
                 square_image: 'http://ddragon.leagueoflegends.com/cdn/' + championinfo.version + '/img/champion/' + championinfo.image.full,
                 loading_image: 'http://ddragon.leagueoflegends.com/cdn/img/champion/loading/' + championinfo.id + '_0.jpg'
             })
@@ -39,9 +40,21 @@ app.post('/result', (req,res) => {
 
     const championList = req.body
     let tags = []
+    let attributes_attack = []
+    let attributes_defense = []
+    let attributes_magic = []
+    const attackThreshold = 30
+    const defenseThreshold = 30
+    const magicThreshold = 30
+
     championList.map(function getTag(champions){
         tags.push(champions.tags[0]);
         champions.tags[1] != null ?  tags.push(champions.tags[1]) : {} ;
+    })
+    championList.map(function getAttributes(champions){
+        attributes_attack.push(champions.info.attack);
+        attributes_defense.push(champions.info.defense);
+        attributes_magic.push(champions.info.magic);
     })
     
 
@@ -54,7 +67,28 @@ app.post('/result', (req,res) => {
 
     const tagCount = [marksman,fighter,tank,mage,assassin,support]
     
-    res.send(tagCount)
+    const attackSum = attributes_attack.reduce((a, b) => a + b, 0)
+    const defenseSum = attributes_defense.reduce((a, b) => a + b, 0)
+    const magicSum = attributes_magic.reduce((a, b) => a + b, 0)
+    
+
+    const attributesSum = [attackSum,defenseSum,magicSum]
+
+    let problems = [];
+    if(attackSum <= attackThreshold){
+        problems.push("Vish, sua composição está com pouco dano :(... Que tal um hypercarry?")
+    }
+    else if (defenseSum <= defenseThreshold){
+        problems.push("Vish, sua composição está com pouca defesa :(, seria intessante colocar champions com mais vida!")
+    }
+    else if (magicSum <= magicThreshold){
+        problems.push("Vish, sua composição está com pouco dano mágico :(, seria intessante colocar champions mais AP!")
+    }
+
+
+    
+
+    res.send(problems)
 });
 
 app.listen(process.env.PORT || 80);
