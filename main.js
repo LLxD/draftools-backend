@@ -43,9 +43,9 @@ app.post('/result', (req,res) => {
     let attributes_attack = []
     let attributes_defense = []
     let attributes_magic = []
-    const attackThreshold = 30
-    const defenseThreshold = 30
-    const magicThreshold = 30
+    const attackThreshold = 20
+    const defenseThreshold = 20
+    const magicThreshold = 20
 
     championList.map(function getTag(champions){
         tags.push(champions.tags[0]);
@@ -74,21 +74,24 @@ app.post('/result', (req,res) => {
 
     const attributesSum = [attackSum,defenseSum,magicSum]
 
-    let problems = [];
+    let results = [];
     if(attackSum <= attackThreshold){
-        problems.push("Vish, sua composição está com pouco dano :(... Que tal um hypercarry?")
+        results.push("Vish, sua composição está com pouco dano físico :(... Que tal um hypercarry?")
     }
     else if (defenseSum <= defenseThreshold){
-        problems.push("Vish, sua composição está com pouca defesa :(, seria intessante colocar champions com mais vida!")
+        results.push("Vish, sua composição está com pouca defesa :(, seria intessante colocar champions com mais vida!")
     }
     else if (magicSum <= magicThreshold){
-        problems.push("Vish, sua composição está com pouco dano mágico :(, seria intessante colocar champions mais AP!")
+        results.push("Vish, sua composição está com pouco dano mágico :(, seria intessante colocar champions mais AP!")
+    }
+    else{
+        results.push("Rapai, a comp ficou quente hein?")
     }
 
 
     
 
-    res.send(problems)
+    res.send(results)
 });
 
 app.listen(process.env.PORT || 80);
